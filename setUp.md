@@ -9,4 +9,5 @@
     3.1. go get -u github.com/gin-gonic/gin
     //This will download Gin and update your go.mod file with the dependency.
 
-4. CREATE 
+"JUST A VERY COOL GIT TRICK IN GIT BASH"
+git init && git add .  && git commit -m "first commit" && git branch -M main && git remote add origin https://github.com/repoName && git push -u origin main
