@@ -8,13 +8,13 @@ Write a simple app that responds to a request.
 Define routes and route groups.
 Use path parameters and query parameters.
 
-4. Middleware Basics:
-Understand Gin's built-in middleware (logger, recovery).
-Implement custom middleware (e.g., authentication).
-
-5. Handle Requests & Responses:
+4. Handle Requests & Responses: -done
 Bind request data (JSON, query params, form).
 Return JSON, HTML, or text responses.
+
+5. Middleware Basics: -done
+Understand Gin's built-in middleware (logger, recovery).
+Implement custom middleware (e.g., authentication).
 
 6. Work with Templates:
 Render HTML using Gin's templating engine.
