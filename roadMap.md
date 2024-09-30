@@ -16,7 +16,7 @@ Return JSON, HTML, or text responses.
 Understand Gin's built-in middleware (logger, recovery).
 Implement custom middleware (e.g., authentication).
 
-6. Work with Templates:
+6. Work with Templates: -done
 Render HTML using Gin's templating engine.
 
 7. Error Handling:
