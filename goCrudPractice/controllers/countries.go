@@ -3,6 +3,7 @@ package controllers
 import (
 	"fmt"
 	"net/http"
+	// "reflect" // reflect package lists the keys (field names) of a struct
 
 	"github.com/gin-gonic/gin"
 	"crud/database/models"
@@ -70,7 +71,7 @@ func CountryCodeById(db *gorm.DB) gin.HandlerFunc {
 
 		var countryCode struct {
 			CountryCode *string `json:"countryCode"` // Pointer to a string to allow null // A string holds the actual string value, while a *string (pointer to a string) holds the memory address where the string is stored. Pointers add flexibility by allowing for nil values (representing "no value"), more efficient data handling, and enabling mutation across function calls.
-			
+
 			// CountryCode string `json:"countryCode"`
 		}
 
@@ -89,3 +90,42 @@ func CountryCodeById(db *gorm.DB) gin.HandlerFunc {
 		})
 	}
 }
+
+func UpdateCountryAndCode(db *gorm.DB) gin.HandlerFunc{
+	return func(c *gin.Context){
+		var id string = c.Param("countryId")
+
+		var countryName string = c.PostForm("countryName")
+		var countryCode string = c.PostForm("countryCode")
+
+		type Country struct{
+			Country, CountryCode string
+		}
+
+		country:= Country{Country: countryName, CountryCode:countryCode}
+
+		// query:= db.Table("countries").Where("id=?", id).Update('country', countryName) // is only one clumn has to be updated
+
+		update:= db.Table("countries").Where("id=?", id).Updates(country)
+		
+		if update.Error !=nil {
+			c.JSON(http.StatusOK, gin.H{ "error":update.Error.Error()})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{
+			"success": true,
+			"rowsUpdated":update.RowsAffected,
+		})
+
+		// val := reflect.ValueOf(update).Elem()
+		// typ := val.Type()
+		// for i := 0; i < val.NumField(); i++ {
+		// 	fmt.Printf("\nKey: %s" ,typ.Field(i).Name)
+		// }
+
+	}
+}
+
+
+
