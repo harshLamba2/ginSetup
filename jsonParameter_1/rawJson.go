@@ -22,7 +22,8 @@ func main(){
 		var reqBody submitJSONBody;
     
 		// Bind the incoming JSON to reqBody
-		if err := c.BindJSON(&reqBody); err != nil {
+		if err := c.BindJSON(&reqBody); 
+		err != nil {
 			c.JSON(400, gin.H{"error": err.Error()})
 			return
 		}
