@@ -31,7 +31,11 @@ func main() {
 
     // PARAMS
     router.GET("/user/:id", func(c *gin.Context) {
-        id := c.Param("id")
+        id := c.Param("id") 
+        // URL parameters (also known as path parameters) are typically used when the data you're passing is essential to identify a specific resource or action within your route.
+        // Use URL params when you are passing resource identifiers.
+        // Eg./users/:id or /products/:productId
+        
         c.JSON(200, gin.H{"user_id": id})
     })
 

@@ -19,10 +19,10 @@ Implement custom middleware (e.g., authentication).
 6. Work with Templates: -done
 Render HTML using Gin's templating engine.
 
-7. Error Handling:
+7. Error Handling: -done
 Use Gin’s error handling capabilities.
 
-8. Testing:
+8. Testing: -done
 Write unit and integration tests for Gin routes.
 
 9. Use Context & Performance Optimization:
