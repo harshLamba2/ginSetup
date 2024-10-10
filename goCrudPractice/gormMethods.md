@@ -106,80 +106,80 @@ Difference from .Preload(): While .Preload() is for eager loading (loading relat
 <!-- Other Less Frequenctly Used Methds -->
 
 
-1. First()
+1. First()- done
 Retrieves the first record that matches the conditions.
 
 db.First(&user)
 
 
-2. Last()
+2. Last()- done
 Retrieves the last record that matches the conditions.
 
 db.Last(&user)
 
 
-3. Save()
+3. Save()- done
 Saves the value into the database (both insert and update).
 
 db.Save(&user)
 
 
-4. Create()
+4. Create()- done
 Inserts a new record into the database.
 
 db.Create(&user)
 
 
-5. Delete()
+5. Delete()- done
 Deletes a record that matches the condition.
 
 db.Delete(&user)
 
 
-6. Update() / .Updates()
+6. Update() / .Updates()- done
 Updates a specific column or multiple columns in the record.
 
 db.Model(&user).Update("name", "John")
 db.Model(&user).Updates(User{Name: "John", Age: 25})
 
 
-7. Scan()
+7. Scan() -done
 Scans the result into a destination (often a struct).
 
 db.Model(&user).Scan(&result)
 
 
-8. Select()
+8. Select()- done
 Specifies which fields to retrieve or modify.
 
 db.Select("name", "age").Find(&users)
 
 
-9. Order()
+9. Order()- done
 Specifies the order of the results (e.g., ascending or descending).
 
 db.Order("age desc").Find(&users)
 
 
-10. Group()
+10. Group()- done
 Used for grouping records.
 
 db.Model(&user).Group("name").Find(&results)
 
 
-11. Having()
+11. Having()- done
 Used with .Group() to specify conditions for grouped records.
 
 db.Group("name").Having("count(name) > ?", 1).Find(&results)
 
 
-12. Limit()
+12. Limit()- done
 Limits the number of records retrieved.
 
 db.Limit(10).Find(&users)
 
 
-13. Offset()
+13. Offset()- done
 Skips a specified number of records.
 
 db.Offset(5).Find(&users)
@@ -192,7 +192,7 @@ var count int64
 db.Model(&User{}).Where("age > ?", 20).Count(&count)
 
 
-15. Raw()
+15. Raw()- done
 Executes a raw SQL query.
 
 db.Raw("SELECT * FROM users WHERE name = ?", "John").Scan(&result)
@@ -226,3 +226,15 @@ db.Unscoped().Where("age > ?", 30).Find(&users)
 For managing associations (e.g., Has Many, Belongs To).
 
 db.Model(&user).Association("Orders").Find(&orders)
+
+
+
+
+<!-- UPDATE METHODS -->
+1. Update(): Update a single field.
+2. Updates(): Update multiple fields.
+3. UpdateColumn()/UpdateColumns(): Similar to Update() and Updates() but bypass hooks.
+4. Where() with Update()/Updates(): Update records based on conditions other than the primary key.
+5. FirstOrCreate(): Insert if not found, update if exists.
+6. FirstOrUpdate(): Update if found, do nothing if not.
+7. Omit(): Exclude specific fields from being updated.
