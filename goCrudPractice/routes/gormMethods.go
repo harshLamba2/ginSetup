@@ -8,6 +8,13 @@ import (
 
 // func GormMethod(router * gin.Engine, db * gorm.DB){
 func GormMethod(router * gin.RouterGroup, db * gorm.DB){ 
-	router.GET("/firstMethod", gormMethods.FirstMethod(db))
+	router.GET("/first-and-last_methods", gormMethods.FirstAndLastMethod(db))
+	router.GET("/update-and-updates", gormMethods.UpdateAndUpdates(db))
+	router.GET("/raw-and-scan-methods", gormMethods.RawAndScanMethod(db))
+	router.GET("/order-method", gormMethods.OrderMethod(db))
+	router.GET("/group-and-having-methods", gormMethods.GroupAndHavingMethod(db))
+	router.GET("/limit-and-offset-methods", gormMethods.LimitAndOffset(db))
+	router.GET("/count-method", gormMethods.CountMethod(db))
+	router.GET("/exec-method", gormMethods.ExecMethod(db))
 }
 
