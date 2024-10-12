@@ -16,5 +16,11 @@ func GormMethod(router * gin.RouterGroup, db * gorm.DB){
 	router.GET("/limit-and-offset-methods", gormMethods.LimitAndOffset(db))
 	router.GET("/count-method", gormMethods.CountMethod(db))
 	router.GET("/exec-method", gormMethods.ExecMethod(db))
+	router.GET("/distinct-method", gormMethods.DistinctMethod(db))
+	router.GET("/pluck-method", gormMethods.PluckMethods(db))
+	router.GET("/unscoped-method", gormMethods.UnscopedMethod(db))
+
+	router.POST("/first-or-create-method", gormMethods.FirstOrCreateMethod(db))
+	
 }
 
