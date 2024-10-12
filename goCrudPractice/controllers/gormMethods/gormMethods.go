@@ -2,9 +2,6 @@
 
 // Find(&groupedCountries): This collects the results from the database query and fills them into the provided slice. GORM expects to write the query results into this slice, so you just pass a reference to it without needing to instantiate the slice elements.
 
-
-
-
 package gormMethods
 
 import(
@@ -270,8 +267,106 @@ func ExecMethod(db *gorm.DB) gin.HandlerFunc{ //Exec is used for raw queries for
 		"updatedRows":updateResult.RowsAffected,
 	})
 	// db.Exec("DELETE FROM users WHERE country_code =?", "+95")
+	}
+}
 
+func DistinctMethod(db *gorm.DB) gin.HandlerFunc{
+	return func(c *gin.Context){
+
+		var distinctGovernments []struct{
+			Government *string `json:"government"`
+		}
+
+		if err:= db.Model(&models.Countries{}).Distinct("government").Find(&distinctGovernments).Error; err!=nil{
+			c.JSON(http.StatusInternalServerError, gin.H{"error":err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{"success":true, "distinctGovernments": distinctGovernments})
+
+	}
+}
+
+func PluckMethods(db *gorm.DB) gin.HandlerFunc{
+	return func(c *gin.Context){
+
+		var countryCodes []string // dosent have to similar to the model key
+
+		// db.Model(&User{}).Joins("JOIN orders ON orders.user_id = users.id").Where("orders.status = ?", "completed").Pluck("users.username", &usernames)// use empty Distinct() to fetch distinct pluck values
+		if err:= db.Model(&models.Countries{}).Pluck("country_code", &countryCodes).Where("country_code IS NOT NULL").Error; err!=nil{
+			c.JSON(http.StatusInternalServerError, gin.H{"error":err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{"success":true, "countryCodes":countryCodes})
+		
+	}
+}
+
+
+// EXPLORE THIS METHOD MORE
+// var user User
+// db.Select("username", "email").First(&user)
+// fmt.Println(user.Username, user.Email)
+
+func UnscopedMethod(db *gorm.DB) gin.HandlerFunc{
+	return func(c *gin.Context){
+		// USELESS DID NOT WOKR
+		// lets you bypass default behaviour and includes soft-deleted records in your queries
+
+		if err:= db.Model(&models.Countries{}).Unscoped().Where("country", "Mayanmar").Error; err!=nil{
+			c.JSON(http.StatusInternalServerError, gin.H{"error":err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{"success":true})
+
+	}
+}
+
+
+
+func FirstOrCreateMethod(db *gorm.DB) gin.HandlerFunc{
+	return func(c *gin.Context){
 
 		
+		var country models.Countries
+
+		if err := c.BindJSON(&country); 
+		err != nil {
+			c.JSON(400, gin.H{"error": err.Error()})
+			return
+		}
+
+		var countryCode *string = country.CountryCode
+
+
+
+	// // Search for the user by email
+	// // If found, only update the Phone field
+	// // If not found, insert the new record with all the fields
+	// db.Where(models.Countries{CountryCode: countryCode}).Attrs(&country).FirstOrUpdate(&user, User{Phone: user.Phone})
+	db.Where("country_code= ?", countryCode).FirstOrUpdate(&country)
+
+
+
+
+
+
+		// result := db.Create(&country);
+
+		// if result.Error != nil {
+		// 	c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+		// 	return
+		// }
+
+		// fmt.Println(result, "result")
+
+		c.JSON(200, gin.H{
+			"success": true,
+			"message":countryCode,
+		})
+		// db.Where(User{Name: "John"}).FirstOrUpdate(&user, User{Email: "john@example.com"})
+		// looks for user with name jhon //if found Email updates to "john@example.com" else record insersion (name, email) VALUES('John', 'john@example.com')
 	}
 }
